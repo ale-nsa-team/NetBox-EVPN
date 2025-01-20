@@ -18,7 +18,7 @@
           job_args:
             extra_vars:
               SWITCH_NAME: "{{ event.payload.data.assigned_object.device.name }}"
-              SERVICE_ID: "{{ event.payload.l2vpn.identifier }}"
+              SERVICE_ID: "{{ event.payload.data.l2vpn.identifier }}"
               ACCESS_INTERFACE: "{{ event.payload.data.assigned_object.name | split(':'))[0] }}"
               ACCESS_INTERFACE_TAG: "{{ event.payload.data.assigned_object.name | split(':'))[1] }}"
               ACCESS_INTERFACE_URL: "{{ event.payload.data.assigned_object.url }}"

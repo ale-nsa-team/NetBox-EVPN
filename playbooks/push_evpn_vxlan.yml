@@ -1,0 +1,10 @@
+---
+- name: Push the EVPN VXLAN service configuration
+  connection: network_cli
+  gather_facts: false
+  hosts: "{{ SWITCH_NAME }}"
+  tasks:
+    - name: Display configuration
+      debug:
+        msg: "service {{ SERVICE_ID }} vxlan vnid {{ SERVICE_ID }} bgp-evpn enable"
+

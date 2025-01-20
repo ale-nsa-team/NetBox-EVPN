@@ -12,10 +12,10 @@
     - name: EVPN VXLAN created
       condition: event.payload.event == "created" and event.payload.model == "l2vpntermination"
       action:
-        run_workflow_template:
+        run_job_template:
           organization: "Default"
-          name: "PUSH EVPN-VXLAN"
-          workflow_args:
+          name: "Push EVPN configuration"
+          job_args:
             extra_vars:
               SWITCH_NAME: "{{ event.payload.data.assigned_object.device.name }}"
               SERVICE_ID: "{{ event.payload.data.l2vpn.identifier }}"

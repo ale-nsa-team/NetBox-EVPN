@@ -10,7 +10,7 @@
 
   rules:
     - name: EVPN VXLAN created
-      condition: event.payload.event == "created" and event.payload.model == "l2vpntermination"
+      condition: event.payload.event == "created" and event.payload.model == "l2vpntermination" and event.payload.data.l2vpn.type.value == "vxlan-evpn"
       action:
         run_job_template:
           organization: "Default"

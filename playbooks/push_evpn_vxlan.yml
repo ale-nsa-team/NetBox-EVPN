@@ -4,7 +4,51 @@
   gather_facts: false
   hosts: "{{ SWITCH_NAME }}"
   tasks:
-    - name: Display configuration
-      debug:
-        msg: "service {{ SERVICE_ID }} vxlan vnid {{ SERVICE_ID }} bgp-evpn enable"
+    - name: Gather Services
+      ale.aos8.aos8_command:
+        commands:
+          - show service 
+      register: show_service
 
+    - name: Parse show service output
+      set_fact:
+        service_ids: "{{ show_service.stdout[0] | regex_findall('^\\d+', multiline=True) }}"
+    - name: Display Service IDs already used
+      debug:
+        var: service_ids
+    - name: Check if SERVICE_ID is not equal to any already used Service IDs
+      fail:
+        msg: "Service ID is already in use."
+      when: SERVICE_ID | string in service_ids
+
+    - name: Gather VXLAN Services
+      ale.aos8.aos8_command:
+        commands:
+          - show service vxlan
+      register: show_service_vxlan
+    - name: Display VXLAN Services
+      debug:
+        var: show_service_vxlan.stdout
+    - name: Parse show service vxlan output and extract VNID values
+      set_fact:
+        vnids: "{{ show_service_vxlan.stdout[0] | regex_findall('\\n\\d+\\s+\\S+\\s+\\S+\\s+\\S+\\s+\\d+\\s+\\d+\\s+(\\d+)\\s+\\S+', multiline=True) }}"
+    - name: Display VNID values already used
+      debug:
+        var: vnids
+    - name: Check if SERVICE_ID is not equal to any VNIDs
+      fail:
+        msg: "VNID is already in use."
+      when: SERVICE_ID | string in vnids
+
+    - name: Display Services
+      debug:
+        var: show_service.stdout_lines
+    - name: Display configuration line1
+      debug:
+        msg: "service {{ SERVICE_ID }} vxlan vnid {{ SERVICE_ID }} bgp-evpn enable vlan-xlation enable"
+    - name: Display configuration line2
+      debug:
+         msg: "service access port {{ (ACCESS_INTERFACE | split(':'))[0] }} vlan-xlation enable evpn-ethernet-segment enable"
+    - name: Display configuration line3
+      debug:
+         msg: "service {{ SERVICE_ID }} sap port {{ ACCESS_INTERFACE }}"

@@ -3,6 +3,9 @@
   connection: network_cli
   gather_facts: false
   hosts: "{{ SWITCH_NAME }}"
+  vars:
+    ansible_ssh_user: '{{ lookup("env", "ANSIBLE_NET_USERNAME") }}'
+    ansible_ssh_pass: '{{ lookup("env", "ANSIBLE_NET_PASSWORD") }}'
   tasks:
     - name: Gather Services
       ale.aos8.aos8_command:

@@ -1,4 +1,4 @@
----
+17---
 - name: Push the EVPN VXLAN service configuration
   connection: network_cli
   gather_facts: false
@@ -48,10 +48,11 @@
         var: show_service.stdout_lines
     - name: Display configuration line1
       debug:
-        msg: "service {{ SERVICE_ID }} vxlan vnid {{ SERVICE_ID }} bgp-evpn enable vlan-xlation enable"
+         msg: "service sap port {{ (ACCESS_INTERFACE | split(':'))[0] }}"
     - name: Display configuration line2
       debug:
-         msg: "service access port {{ (ACCESS_INTERFACE | split(':'))[0] }} vlan-xlation enable evpn-ethernet-segment enable"
+        msg: "service {{ SERVICE_ID }} vxlan vnid {{ SERVICE_ID }} bgp-evpn enable vlan-xlation enable"
     - name: Display configuration line3
       debug:
-         msg: "service {{ SERVICE_ID }} sap port {{ ACCESS_INTERFACE }}"
+         msg: "service {{ SERVICE_ID }} access port {{ (ACCESS_INTERFACE }} vlan-xlation enable evpn-ethernet-segment enable"
+

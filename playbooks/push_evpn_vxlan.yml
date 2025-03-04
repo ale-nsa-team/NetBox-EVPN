@@ -61,4 +61,4 @@
         lines:
           - "service access port {{ (ACCESS_INTERFACE | split(':'))[0] }} evpn-ethernet-segment enable"
           - "service {{ SERVICE_ID }} vxlan vnid {{ SERVICE_ID }} bgp-evpn enable vlan-xlation enable"
-          - "service {{ SERVICE_ID }} sap {{ ACCESS_INTERFACE }} vlan-xlation enable evpn-ethernet-segment enable"
+          - "service {{ SERVICE_ID }} sap port {{ ACCESS_INTERFACE }} vlan-xlation enable evpn-ethernet-segment enable"

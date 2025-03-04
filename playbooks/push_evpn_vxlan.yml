@@ -54,7 +54,7 @@
         msg: "service {{ SERVICE_ID }} vxlan vnid {{ SERVICE_ID }} bgp-evpn enable vlan-xlation enable"
     - name: Display configuration line3
       debug:
-         msg: "service {{ SERVICE_ID }} sap {{ ACCESS_INTERFACE }} vlan-xlation enable evpn-ethernet-segment enable"
+         msg: "service {{ SERVICE_ID }} sap port {{ ACCESS_INTERFACE }} vlan-xlation enable evpn-ethernet-segment enable"
 
     - name: Push config
       ale.aos8.aos8_config:

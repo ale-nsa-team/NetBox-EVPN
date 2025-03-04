@@ -6,6 +6,7 @@
   vars:
     ansible_ssh_user: '{{ lookup("env", "ANSIBLE_NET_USERNAME") }}'
     ansible_ssh_pass: '{{ lookup("env", "ANSIBLE_NET_PASSWORD") }}'
+    ansible_command_timeout: 300
   tasks:
     - name: Gather Services
       ale.aos8.aos8_command:

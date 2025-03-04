@@ -48,7 +48,7 @@
         var: show_service.stdout_lines
     - name: Display configuration line1
       debug:
-         msg: "service sap port {{ (ACCESS_INTERFACE | split(':'))[0] }}"
+         msg: "service access port {{ (ACCESS_INTERFACE | split(':'))[0] }} evpn-ethernet-segment enable"
     - name: Display configuration line2
       debug:
         msg: "service {{ SERVICE_ID }} vxlan vnid {{ SERVICE_ID }} bgp-evpn enable vlan-xlation enable"
@@ -59,6 +59,6 @@
     - name: Push config
       ale.aos8.aos8_config:
         lines:
-          - "service sap port {{ (ACCESS_INTERFACE | split(':'))[0] }}"
+          - "service access port {{ (ACCESS_INTERFACE | split(':'))[0] }} evpn-ethernet-segment enable"
           - "service {{ SERVICE_ID }} vxlan vnid {{ SERVICE_ID }} bgp-evpn enable vlan-xlation enable"
           - "service {{ SERVICE_ID }} access port {{ ACCESS_INTERFACE }} vlan-xlation enable evpn-ethernet-segment enable"
